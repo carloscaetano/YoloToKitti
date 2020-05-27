@@ -17,14 +17,14 @@ This repository holds the YoloToKitti. A simple code to convert Yolo detection f
 # Usage Guide
 
 ## Prerequisites
-[[back to top](#Yolo-to-Kitti-Converter-(YoloToKitti))]
+[[back to top](#yolo-to-kitti-converter-(yolotokitti))]
 
 The codebase is written in Python 3.7. We recommend the [Anaconda][anaconda] Python distribution.
 
 ## Code & Data Preparation
 
 ### Get the code
-[[back to top](#Yolo-to-Kitti-Converter-(YoloToKitti))]
+[[back to top](#yolo-to-kitti-converter-(yolotokitti))]
 
 Use git to clone this repository
 ```
@@ -32,7 +32,7 @@ git clone --recursive https://github.com/carloscaetano/YoloToKitti
 ```
 
 ### Usage
-[[back to top](#Yolo-to-Kitti-Converter-(YoloToKitti))]
+[[back to top](#yolo-to-kitti-converter-(yolotokitti))]
 
 To convert the Yolo format detection files to Kitti format, run the YolloToKitti.py. It has two arguments:
 - [--input, -i] Directory containing the Yolo detection files (.txt)
@@ -49,7 +49,7 @@ python YolloToKitti.py -i ./yoloV4_detections -o ./files_converted
 ```
 
 # Other Info
-[[back to top](#Yolo-to-Kitti-Converter-(YoloToKitti)))]
+[[back to top](#yolo-to-kitti-converter-(yolotokitti)))]
 
 ## Contact
 For any question, please contact
