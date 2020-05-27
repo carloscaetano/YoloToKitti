@@ -1,4 +1,4 @@
-# Yolo to Kitti Converter (YoloToKitti)
+#Yolo to Kitti Converter (YoloToKitti)
 
 This repository holds the YoloToKitti. A simple code to convert Yolo detection files to Kitti files.
 - Yolo format: (int_label, x_center, y_center, width, height) - float values relative to width and height of image, it can be equal from (0.0 to 1.0].
