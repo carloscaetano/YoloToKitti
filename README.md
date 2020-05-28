@@ -39,17 +39,18 @@ git clone --recursive https://github.com/carloscaetano/YoloToKitti
 [[back to top](#yolo-to-kitti-converter-yolotokitti)]
 
 To convert the Yolo format detection files to Kitti format, run the YolloToKitti.py. It has two arguments:
-- [--input, -i] Directory containing the Yolo detection files (.txt)
+- [--detections, -d] Directory containing the Yolo detection files (.txt)
+- [--images, -i] Directory containing the corresponding image files (.jpg)
 - [--output, -o] Directory to save the converted Kitti detection files (.txt)
 
 #### Example
-To convert the Yolo detection files, at the example directory ./yoloV4_detections/ and save the converted Kitti detection files to the folder ./files_converted, you can run
+To convert the Yolo detection files, at the example directory ./yoloV4_detections, with the corresponding image files at ./images and save the converted Kitti detection files to the folder ./files_converted, you can run
 ```
-python YolloToKitti.py --input ./yoloV4_detections --output ./files_converted
+python YolloToKitti.py --detections ./yoloV4_detections --images ./images --output ./files_converted
 ```
 or
 ```
-python YolloToKitti.py -i ./yoloV4_detections -o ./files_converted
+python YolloToKitti.py -d ./yoloV4_detections -i ./images -o ./files_converted
 ```
 
 # Other Info
