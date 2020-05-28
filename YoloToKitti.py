@@ -9,6 +9,7 @@
 import os
 import glob
 import argparse
+import cv2 as cv
 import multiprocessing as mp
 from typing import List
 
@@ -23,11 +24,18 @@ def get_arguments(parser: argparse.ArgumentParser) -> argparse.Namespace:
 	    args (argparse): parsed command lines by argparse
 	"""
 	parser.add_argument(
-		'-i',
-		'--input',
+		'-d',
+		'--detections',
 		type = str,
 		required = True,
 		help = 'directory containing the .txt Yolo detections')
+
+	parser.add_argument(
+		'-i',
+		'--images',
+		type=str,
+		required=True,
+		help='directory containing the corresponding .jpg images')
 
 	parser.add_argument(
 		'-o',
@@ -69,22 +77,24 @@ def get_label(label_num: int) -> str:
 	return label_name
 
 
-def convert_to_kitti(file: str, img_width: int = 1920, img_height: int = 1080) -> List[str]:
+def convert_to_kitti(txt_file: str, img_file: str) -> List[str]:
 	"""Converts from Yolo to Kitti
 
 	Converts each line of the file from Yolo format to
 	Kitti bounding box format (label, x1, y1, x2, y2).
 
 	Args:
-	    file (str): file path to convert
-	    img_width (int): image width size
-	    img_height (int): image heigth size
+	    txt_file (str): file path to convert
+	    img_file (str): corresponding img file path
 
 	Returns:
 	    converted_lines (List[str]): a list with lines converted to Kitti format
 	"""
-	fr = open(file, 'r')
+	fr = open(txt_file, 'r')
 	converted_lines = []
+
+	img = cv.imread(img_file)
+	img_height, img_width, img_chanels = img.shape
 
 	for line in fr:
 		line_split = line.split(' ')
@@ -137,18 +147,20 @@ def worker(args: tuple)-> bool:
 	of the many .txt files for conversion.
 
 	Args:
-	    args (tuple): a tuple composed by the file path to convert
-	    and the output path to save the converted file.
+	    args (tuple): a tuple composed by the file path to convert,
+	    the corresponding image fpath and the output path to save
+	    the converted file.
 
 	Returns:
 	     ret (bool): returns True if file successfully converted
 	"""
 	file_path = args[0]
-	output_path = args[1]
+	img_path = args[1]
+	output_path = args[2]
 	ret = True
 
 	try:
-		converted_lines = convert_to_kitti(file_path)
+		converted_lines = convert_to_kitti(file_path, img_path)
 		file_name = os.path.basename(file_path)
 		fw = open(os.path.join(output_path, file_name), 'w')
 		fw.writelines(converted_lines)
@@ -177,9 +189,13 @@ def main(parser: argparse.ArgumentParser) -> None:
 	if not check_path(args.output):
 		return
 
-	files_to_convert =  glob.glob(os.path.join(args.input, '*.txt'))
+	files_to_convert =  glob.glob(os.path.join(args.detections, '*.txt'))
+	files_to_convert.sort()
+	img_files = glob.glob(os.path.join(args.images, '*.jpg'))
+	img_files.sort()
+
 	pool = mp.Pool(mp.cpu_count())
-	out_list = pool.map(worker, ((file, args.output) for file in files_to_convert))
+	out_list = pool.map(worker, ((txt_file, img_file, args.output) for txt_file, img_file in zip(files_to_convert, img_files)))
 	pool.close()
 	pool.join()
 	pool.terminate()

@@ -19,7 +19,11 @@ This repository holds the YoloToKitti. A simple code to convert Yolo detection f
 ## Prerequisites
 [[back to top](#yolo-to-kitti-converter-yolotokitti)]
 
-The codebase is written in Python 3.7. We recommend the [Anaconda][anaconda] Python distribution.
+The main dependency to run the code is
+
+- [OpenCV][opencv]
+
+The codebase is written in Python 3.6. We recommend the [Anaconda][anaconda] Python distribution.
 
 ## Code & Data Preparation
 
@@ -57,4 +61,5 @@ For any question, please contact
 Carlos Caetano: carlos.caetano@dcc.ufmg.br
 ```
 
+[opencv]:https://opencv.org/
 [anaconda]:https://www.continuum.io/downloads
